@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfomore | Daily Team Tracker</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+
+    <link rel="stylesheet" href="css/style.css">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+</head>
+
+<body>
+    <header>
+        <h1>Perfomore 🚀</h1>
+    </header>
+    <main class="container">
+
+        <nav class="tabs">
+            <button class="tab-button active" data-tab="input">Input Log</button>
+            <button class="tab-button" data-tab="output">View Report</button>
+            <button class="tab-button admin-only" data-tab="manage">Manage</button>
+        </nav>
+
+        <section id="input" class="tab-content active">
+            <h2>Daily Work Submission</h2>
+            <form id="daily-log-form">
+
+                <div class="form-group">
+                    <label for="date-input">Date of Work</label>
+                    <input type="date" id="date-input" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="employee-name-select">Team Member Name *</label>
+                    <div style="display: flex; gap: 0.5rem; align-items: center;">
+                        <select id="employee-name-select" required style="flex: 1;">
+                            <option value="" disabled selected>Select your name...</option>
+                        </select>
+                        <button type="button" id="refresh-employees-btn" class="btn btn-secondary"
+                            style="padding: 0.75rem 1rem; white-space: nowrap;">
+                            Refresh
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="ticket-number-input">Ticket Number(s) (Optional)</label>
+                    <textarea id="ticket-number-input" rows="2"
+                        placeholder="e.g., JIRA-201, TSK-501. Use paragraph for multiple."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="work-done-input">Work Done (Optional)</label>
+                    <textarea id="work-done-input" rows="6"
+                        placeholder="Detailed description of tasks completed today."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="blockers-input">Blockers / Dependencies (Optional)</label>
+                    <textarea id="blockers-input" rows="4"
+                        placeholder="Any obstacles, items waiting on others, or critical dependencies."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Submit Daily Log</button>
+
+            </form>
+        </section>
+
+        <section id="output" class="tab-content hidden">
+            <h2>Team Work Report</h2>
+
+            <div class="controls">
+                <div class="form-group inline">
+                    <label for="report-date">Date:</label>
+                    <input type="date" id="report-date">
+                </div>
+                <button id="refresh-report" class="btn btn-secondary">Refresh</button>
+            </div>
+
+            <div id="report-container" class="report-container">
+                <table id="work-report-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Ticket #</th>
+                            <th>Work Done</th>
+                            <th>Blockers</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows will be populated here -->
+                    </tbody>
+                </table>
+                <p id="no-data-msg" class="hidden">No logs found for this date.</p>
+            </div>
+
+            <div class="actions">
+                <button id="copy-image-btn" class="btn btn-primary">Copy as Image</button>
+                <button id="ai-summary-btn" class="btn btn-secondary" disabled>AI Summary (Coming Soon)</button>
+            </div>
+        </section>
+
+        <section id="manage" class="tab-content hidden admin-only">
+            <h2>System Administration</h2>
+
+            <div class="manage-section">
+                <h3>Manage Employees</h3>
+                <div class="add-employee-form">
+                    <input type="text" id="new-employee-name" placeholder="Enter new employee name">
+                    <button id="add-employee-btn" class="btn btn-primary">Add Employee</button>
+                </div>
+
+                <ul id="employee-list" class="employee-list">
+                    <!-- Employee items will be listed here -->
+                </ul>
+            </div>
+
+            <div class="manage-section">
+                <h3>Data Management</h3>
+                <button id="download-csv-btn" class="btn btn-secondary">Download Database as CSV</button>
+                <button id="clear-logs-btn" class="btn btn-secondary"
+                    style="background: #8b0000; margin-left: 0.5rem;">Clear All Logs</button>
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+
+</body>
+
+</html>
