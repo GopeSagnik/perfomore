@@ -23,6 +23,14 @@ const loadReportTable = async () => {
     if (!selectedDate) return;
 
     ensureActionsHeader();
+
+    // Update Report Header
+    const reportHeader = document.getElementById('report-header');
+    if (reportHeader) {
+        const [year, month, day] = selectedDate.split('-');
+        reportHeader.textContent = `${month}/${day}/${year} Standard Tracker`;
+    }
+
     reportTableBody.innerHTML = '<tr><td colspan="5" style="text-align:center;">Loading...</td></tr>';
 
     try {

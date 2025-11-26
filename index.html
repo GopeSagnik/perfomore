@@ -4,7 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Perfomore | Daily Team Tracker</title>
+    <link rel="icon" type="image/png" href="favic.png">
+    <title>Perfomore 🚀</title>
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
 
     <link rel="stylesheet" href="css/style.css">
@@ -49,7 +50,7 @@
                 <div class="form-group">
                     <label for="ticket-number-input">Ticket Number(s) (Optional)</label>
                     <textarea id="ticket-number-input" rows="2"
-                        placeholder="e.g., JIRA-201, TSK-501. Use paragraph for multiple."></textarea>
+                        placeholder="e.g., DTC-123456, IT-654321. Use paragraph for multiple."></textarea>
                 </div>
 
                 <div class="form-group">
@@ -77,10 +78,13 @@
                     <label for="report-date">Date:</label>
                     <input type="date" id="report-date">
                 </div>
-                <button id="refresh-report" class="btn btn-secondary">Refresh</button>
+                <button id="refresh-report" class="btn btn-secondary">Refresh Table Data</button>
             </div>
 
             <div id="report-container" class="report-container">
+                <h3 id="report-header"
+                    style="text-align: center; margin-bottom: 1rem; color: #ffb3b3; text-shadow: 0 0 10px rgba(139, 0, 0, 0.3);">
+                </h3>
                 <table id="work-report-table">
                     <thead>
                         <tr>
@@ -98,7 +102,7 @@
             </div>
 
             <div class="actions">
-                <button id="copy-image-btn" class="btn btn-primary">Copy as Image</button>
+                <button id="copy-image-btn" class="btn btn-primary">Copy Table as Image</button>
                 <button id="ai-summary-btn" class="btn btn-secondary" disabled>AI Summary (Coming Soon)</button>
             </div>
         </section>
