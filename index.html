@@ -11,9 +11,150 @@
     <link rel="stylesheet" href="css/style.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        /* Auth Overlay Styles */
+        #auth-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #121212;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Roboto', sans-serif;
+            backdrop-filter: blur(5px);
+        }
+
+        .auth-box {
+            background-color: #1e1e1e;
+            padding: 2.5rem;
+            border-radius: 12px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            border: 1px solid #333;
+            max-width: 90%;
+            width: 320px;
+        }
+
+        .auth-box h2 {
+            margin-top: 0;
+            margin-bottom: 1.5rem;
+            color: #ffffff;
+            font-weight: 300;
+        }
+
+        .auth-box input {
+            width: 100%;
+            padding: 12px;
+            margin-bottom: 1rem;
+            border: 1px solid #444;
+            border-radius: 6px;
+            background-color: #2d2d2d;
+            color: #fff;
+            font-size: 1.1rem;
+            text-align: center;
+            outline: none;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+        }
+
+        .auth-box input:focus {
+            border-color: #ef4444;
+        }
+
+        .auth-box button {
+            width: 100%;
+            padding: 12px;
+            background-color: #ef4444;
+            color: #000;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.1s, background-color 0.2s;
+        }
+
+        .auth-box button:hover {
+            background-color: #8e0000;
+        }
+
+        .auth-box button:active {
+            transform: scale(0.98);
+        }
+
+        #auth-error {
+            color: #cf6679;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
+    <!-- Auth Overlay -->
+    <div id="auth-overlay">
+        <div class="auth-box">
+            <h2>Enter Security PIN</h2>
+            <input type="password" id="auth-pin" placeholder="********" maxlength="8">
+            <button id="auth-submit">Unlock</button>
+            <p id="auth-error">Incorrect PIN. Please try again.</p>
+        </div>
+    </div>
+
+    <script>
+        (function () {
+            // --- CONFIGURATION ---
+            const AUTH_PIN = "20261243";
+            const AUTH_PIN_1 = "3173";
+            // HARD-CODED PIN
+            // ---------------------
+
+            const overlay = document.getElementById('auth-overlay');
+            const pinInput = document.getElementById('auth-pin');
+            const submitBtn = document.getElementById('auth-submit');
+            const errorMsg = document.getElementById('auth-error');
+
+            // 1. Check Session Storage on Load
+            if (sessionStorage.getItem('is_authenticated') === 'true') {
+                overlay.style.display = 'none';
+            } else {
+                pinInput.focus();
+            }
+
+            // 2. Auth Logic
+            function authenticate() {
+                const enteredPin = pinInput.value;
+                if (enteredPin === AUTH_PIN || enteredPin === AUTH_PIN_1) {
+                    sessionStorage.setItem('is_authenticated', 'true');
+                    overlay.style.display = 'none';
+                } else {
+                    errorMsg.style.display = 'block';
+                    pinInput.value = '';
+                    pinInput.focus();
+                    // Shake animation effect (optional simple visual cue)
+                    const box = document.querySelector('.auth-box');
+                    box.style.transform = 'translateX(5px)';
+                    setTimeout(() => box.style.transform = 'translateX(-5px)', 50);
+                    setTimeout(() => box.style.transform = 'translateX(5px)', 100);
+                    setTimeout(() => box.style.transform = 'translateX(0)', 150);
+                }
+            }
+
+            // 3. Event Listeners
+            submitBtn.addEventListener('click', authenticate);
+
+            pinInput.addEventListener('keypress', function (e) {
+                if (e.key === 'Enter') {
+                    authenticate();
+                }
+            });
+        })();
+    </script>
     <header>
         <h1>Perfomore 🚀</h1>
     </header>
@@ -103,7 +244,7 @@
 
             <div class="actions">
                 <button id="copy-image-btn" class="btn btn-primary">Copy Table as Image</button>
-                <button id="ai-summary-btn" class="btn btn-secondary" disabled>AI Summary (Coming Soon)</button>
+                <!-- <button id="ai-summary-btn" class="btn btn-secondary" disabled>AI Summary (Coming Soon)</button> -->
             </div>
         </section>
 
@@ -131,6 +272,10 @@
         </section>
 
     </main>
+
+    <footer>
+        <p>Created by Sagnik Gope</p>
+    </footer>
 
     <script type="module" src="js/app.js"></script>
 
